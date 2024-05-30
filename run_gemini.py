@@ -17,7 +17,7 @@ def start_chat(content):
 
 command = "git fetch origin main && git fetch origin dev"
 subprocess.run(command, shell=True, check=True)
-command = "git diff main..dev"
+command = "git diff origin/main..dev"
 git_diff = subprocess.run(command, shell=True, stdout=subprocess.PIPE, check=True)
 
 content = f"""
