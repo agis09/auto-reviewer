@@ -2,7 +2,7 @@ name: test
 run-name: ${{ github.actor }} runs test
 on: 
   pull_request:
-    types: [opened]
+    types: [push]
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
