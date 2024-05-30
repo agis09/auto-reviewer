@@ -6,8 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set up a Git safe directory
+        run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
+      - uses: actions/setup-python@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
         with:
           python-version: '3.12.x'
       - name: Install dependencies
