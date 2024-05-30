@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -15,8 +17,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install poetry
           poetry install
-      - name: Set up a Git safe directory
-        run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
       - name: Run review
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
