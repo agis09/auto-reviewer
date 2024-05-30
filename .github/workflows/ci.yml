@@ -1,0 +1,21 @@
+name: test
+run-name: ${{ github.actor }} runs test
+on: 
+  pull_request:
+    types: [opened]
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.x'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+      - name: Run review
+        run: poetry run python run_gemini.py
