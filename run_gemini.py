@@ -15,13 +15,17 @@ def start_chat(content):
     return response
 
 
+command = "git fetch origin main && git fetch origin dev"
+subprocess.run(command, shell=True, check=True)
 command = "git diff main..dev"
 git_diff = subprocess.run(command, shell=True, stdout=subprocess.PIPE, check=True)
 
 content = f"""
 You are a great software engineer. Please review my code based on the following `git diff main..HEAD` results and changed source code. The review should state what needs to be corrected and why for the areas that need to be corrected. Then, please output the review results in the following json format
 ```json
-{{“body”: “review comments”, “path”: “target filename”, “line”: “target line number”, “side”: “whether comments are for deletions or additions (LEFT for comments on deleted sources, RIGHT for comments on added sources)”}}
+{{“body”: “review comments”, “path”: “target filename”, “line”: “target line number”, “side”: “whether comments are for deletions or additions (LEFT for comments on deleted sources, RIGHT for comments on added sources)”}},
+{{“body”: “review comments”, “path”: “target filename”, “line”: “target line number”, “side”: “whether comments are for deletions or additions (LEFT for comments on deleted sources, RIGHT for comments on added sources)”}},
+...
 ```
 Results of git diff:
 ```
