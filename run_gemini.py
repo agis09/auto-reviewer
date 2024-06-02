@@ -12,10 +12,10 @@ def get_review(api_key, commit_branch, main_branch, logger):
         command,
         shell=True,
         stdout=subprocess.PIPE,
-        stderr="subprocess.PIPE",
+        stderr=subprocess.PIPE,
         check=True,
     )
-    logger.error(f"stderr:{git_diff.stderr.decode('utf-8')}")
+    logger.error(f"stderr:{git_diff.stderr}")
 
     genai.configure(api_key=api_key)
     safety_settings = [
