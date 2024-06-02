@@ -56,7 +56,7 @@ def parse_comments(text):
 
 
 if __name__ == "__main__":
-    github_api_token = os.environ["GITHUB_API_TOKEN"]
+    git_api_token = os.environ["GIT_API_TOKEN"]
     pr_number = os.environ["PULL_REQUEST_NUMBER"]
     commit_id = os.environ["COMMIT_ID"]
     pr_repository = os.environ["PR_REPO_NAME"]
