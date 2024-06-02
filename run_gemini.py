@@ -11,7 +11,7 @@ def get_review(api_key, commit_branch, main_branch, logger):
         check=True,
     )
     git_diff = subprocess.run(
-        f"git diff {main_branch}..{commit_branch}",
+        f"git diff origin/{main_branch}..origin/{commit_branch}",
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
