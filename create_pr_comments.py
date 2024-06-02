@@ -57,16 +57,18 @@ if __name__ == "__main__":
     github_api_token = os.environ["GITHUB_API_TOKEN"]
     pr_number = os.environ["PULL_REQUEST_NUMBER"]
     commit_id = os.environ["COMMIT_ID"]
-    source_repository = os.environ["SOURCE_REPO_NAME"]
+    pr_repository = os.environ["PR_REPO_NAME"]
+    pr_branch_name = os.environ["PR_BRANCH_NAME"]
+    base_branch_name = os.environ["BASE_BRNACH_NAME"]
 
-    raw_review = get_review("dev", "main")
+    raw_review = get_review(pr_branch_name, f"origin/{base_branch_name}", logger)
     review_comments = parse_comments(raw_review)
 
     for comment in review_comments:
 
         try:
             comment_data = create_pull_request_comment(
-                source_repository,
+                pr_repository,
                 pr_number,
                 github_api_token,
                 comment["body"],

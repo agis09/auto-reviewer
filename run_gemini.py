@@ -17,11 +17,18 @@ model = genai.GenerativeModel(
 )
 
 
-def get_review(commit_branch="dev", main_branch="main"):
+def get_review(commit_branch, main_branch, logger):
     command = "git fetch origin main && git fetch origin dev"
     subprocess.run(command, shell=True, check=True)
-    command = f"git diff origin/{main_branch}..{commit_branch}"
-    git_diff = subprocess.run(command, shell=True, stdout=subprocess.PIPE, check=True)
+    command = f"git diff {main_branch}..{commit_branch}"
+    git_diff = subprocess.run(
+        command,
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr="subprocess.PIPE",
+        check=True,
+    )
+    logger.error(f"stderr:{git_diff.stderr}")
 
     content = f"""
     You are a great software engineer. Please review my code based on the following `git diff main..HEAD` results and changed source code. 
