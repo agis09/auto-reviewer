@@ -12,10 +12,10 @@ load_dotenv(override=True)
 
 
 def create_pull_request_comment(
-    repository, pair_number, github_api_token, body, commit_id, path, line, side
+    repository, pull_number, github_api_token, body, commit_id, path, line, side
 ):
 
-    pr_url = f"https://api.github.com/repos/{repository}/pulls/{pair_number}/comments"
+    pr_url = f"https://api.github.com/repos/{repository}/pulls/{pull_number}/comments"
     headers = {
         "Accept": "application/json",
         "Authorization": f"Bearer {github_api_token}",
