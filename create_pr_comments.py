@@ -10,14 +10,12 @@ logging.basicConfig(encoding="utf-8", level=logging.DEBUG)
 
 load_dotenv(override=True)
 
-github_api_token = os.environ["GITHUB_API_TOKEN"]
-
 
 def create_pull_request_comment(
-    repository, pull_number, github_api_token, body, commit_id, path, line, side
+    repository, pair_number, github_api_token, body, commit_id, path, line, side
 ):
 
-    pr_url = f"https://api.github.com/repos/{repository}/pulls/{pull_number}/comments"
+    pr_url = f"https://api.github.com/repos/{repository}/pulls/{pair_number}/comments"
     headers = {
         "Accept": "application/json",
         "Authorization": f"Bearer {github_api_token}",
@@ -56,19 +54,20 @@ def parse_comments(text):
 
 
 if __name__ == "__main__":
+    github_api_token = os.environ["GITHUB_API_TOKEN"]
+    pr_number = os.environ["PULL_REQUEST_NUMBER"]
+    commit_id = os.environ["COMMIT_ID"]
+    source_repository = os.environ["SOURCE_REPO_NAME"]
+
     raw_review = get_review("dev", "main")
     review_comments = parse_comments(raw_review)
-
-    repository = "agis09/auto-reviewer"  # TODO: get from ci envs
-    pull_number = "2"  # TODO: get from ci envs
-    commit_id = "e10a08a212a1eee2f171b6a4058633b193d167b6"  # TODO: get from ci envs
 
     for comment in review_comments:
 
         try:
             comment_data = create_pull_request_comment(
-                repository,
-                pull_number,
+                source_repository,
+                pr_number,
                 github_api_token,
                 comment["body"],
                 commit_id,

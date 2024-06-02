@@ -1,6 +1,8 @@
 name: test
 run-name: ${{ github.actor }} runs test
-on: [push]
+on:
+  pull_request:
+    types: [opened]
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
@@ -18,4 +20,7 @@ jobs:
       - name: Run review
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+          COMMIT_ID: ${{ github.event.pull_request.head.sha }}
+          SOURCE_REPO_NAME: ${{ github.event.pull_request.head.repo.full_name }}
         run: poetry run python run_gemini.py
