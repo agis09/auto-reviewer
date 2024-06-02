@@ -75,7 +75,7 @@ if __name__ == "__main__":
             comment_data = create_pull_request_comment(
                 pr_repository,
                 pr_number,
-                github_api_token,
+                git_api_token,
                 comment["body"],
                 commit_id,
                 comment["path"],
