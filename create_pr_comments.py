@@ -59,7 +59,7 @@ if __name__ == "__main__":
     commit_id = os.environ["COMMIT_ID"]
     pr_repository = os.environ["PR_REPO_NAME"]
     pr_branch_name = os.environ["PR_BRANCH_NAME"]
-    base_branch_name = os.environ["BASE_BRNACH_NAME"]
+    base_branch_name = os.environ["BASE_BRANCH_NAME"]
     google_api_key = os.environ["GOOGLE_API_KEY"]
 
     raw_review = get_review(
