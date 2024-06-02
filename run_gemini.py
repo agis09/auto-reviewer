@@ -5,13 +5,11 @@ from dotenv import load_dotenv
 
 
 def get_review(api_key, commit_branch, main_branch, logger):
-    command = "git fetch origin main && git fetch origin dev"
-    subprocess.run(command, shell=True, check=True)
-    debug = subprocess.run("git branch", shell=True, stdout=subprocess.PIPE, check=True)
-    logger.info(debug.stdout)
-    command = f"git diff {main_branch}..{commit_branch}"
+    subprocess.run(
+        f"git checkout {commit_branch}", shell=True, stdout=subprocess.PIPE, check=True
+    )
     git_diff = subprocess.run(
-        command,
+        f"git diff {main_branch}..{commit_branch}",
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
