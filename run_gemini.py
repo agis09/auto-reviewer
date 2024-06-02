@@ -3,21 +3,8 @@ import os
 import subprocess
 from dotenv import load_dotenv
 
-load_dotenv(override=True)
 
-genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
-safety_settings = [
-    {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
-    {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
-    {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
-    {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
-]
-model = genai.GenerativeModel(
-    "gemini-1.5-flash-latest", safety_settings=safety_settings
-)
-
-
-def get_review(commit_branch, main_branch, logger):
+def get_review(api_key, commit_branch, main_branch, logger):
     command = "git fetch origin main && git fetch origin dev"
     subprocess.run(command, shell=True, check=True)
     command = f"git diff {main_branch}..{commit_branch}"
@@ -29,6 +16,17 @@ def get_review(commit_branch, main_branch, logger):
         check=True,
     )
     logger.error(f"stderr:{git_diff.stderr}")
+
+    genai.configure(api_key=api_key)
+    safety_settings = [
+        {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
+        {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
+        {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
+        {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
+    ]
+    model = genai.GenerativeModel(
+        "gemini-1.5-flash-latest", safety_settings=safety_settings
+    )
 
     content = f"""
     You are a great software engineer. Please review my code based on the following `git diff main..HEAD` results and changed source code. 

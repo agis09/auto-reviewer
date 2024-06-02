@@ -60,8 +60,11 @@ if __name__ == "__main__":
     pr_repository = os.environ["PR_REPO_NAME"]
     pr_branch_name = os.environ["PR_BRANCH_NAME"]
     base_branch_name = os.environ["BASE_BRNACH_NAME"]
+    google_api_key = os.environ["GOOGLE_API_KEY"]
 
-    raw_review = get_review(pr_branch_name, f"origin/{base_branch_name}", logger)
+    raw_review = get_review(
+        google_api_key, pr_branch_name, f"origin/{base_branch_name}", logger
+    )
     review_comments = parse_comments(raw_review)
 
     for comment in review_comments:
