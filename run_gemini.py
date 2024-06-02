@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 def get_review(api_key, commit_branch, main_branch, logger):
     command = "git fetch origin main && git fetch origin dev"
     subprocess.run(command, shell=True, check=True)
+    debug = subprocess.run(command, shell=True, stdout=subprocess.PIPE, check=True)
+    logger.info(debug)
     command = f"git diff {main_branch}..{commit_branch}"
     git_diff = subprocess.run(
         command,
