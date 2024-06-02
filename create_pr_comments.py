@@ -29,6 +29,8 @@ def create_pull_request_comment(
         "side": side,
     }
 
+    logger.debug(data)
+
     response = requests.post(pr_url, headers=headers, json=data)
     try:
         response.raise_for_status()
