@@ -1,6 +1,7 @@
 import google.generativeai as genai
 import os
 import subprocess
+import logging
 from dotenv import load_dotenv
 
 
@@ -17,7 +18,7 @@ def get_review(api_key, commit_branch, main_branch, logger):
         stderr=subprocess.PIPE,
         check=True,
     )
-    if git_diff.stderr is not None:
+    if git_diff.stderr != b"":
         logger.error(f"stderr:{git_diff.stderr}")
 
     genai.configure(api_key=api_key)
@@ -32,7 +33,7 @@ def get_review(api_key, commit_branch, main_branch, logger):
     )
 
     content = f"""
-    You are a great software engineer. Please review my code based on the following `git diff main..HEAD` results and changed source code. 
+    You are a great software engineer. Please review my code based on the following `git diff main..HEAD` results. 
     - The review should state what needs to be corrected and why for the areas that need to be corrected. 
     - Output the review results in the following jsonl (json line) format. 
     - Do not use "null" in each value
@@ -55,4 +56,9 @@ def get_review(api_key, commit_branch, main_branch, logger):
 
 
 if __name__ == "__main__":
-    get_review()
+    load_dotenv(override=True)
+    google_api_key = os.environ["GOOGLE_API_KEY"]
+    logger = logging.getLogger(__name__)
+    logging.basicConfig(encoding="utf-8", level=logging.DEBUG)
+    res = get_review(google_api_key, "dev", "main", logger)
+    logger.debug(res)
