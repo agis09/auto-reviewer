@@ -33,21 +33,24 @@ def get_review(api_key, commit_branch, main_branch, logger):
     )
 
     content = f"""
-    You are a great software engineer. Please review my code based on the following `git diff main..HEAD` results. 
-    - The review should state what needs to be corrected and why for the areas that need to be corrected. 
-    - Output the review results in the following jsonl (json line) format. 
-    - Do not use "null" in each value
-    - Do not use ASCII codes, use only 'utf-8'.
+    You are a highly skilled software engineer. Please review the provided code diff based on the following `git diff main..HEAD` results. 
+    - Your review should identify areas that need correction, explaining what needs to be changed and why.
+    - Include the following in your review:
+    - **Interpretation:** How you understand the code.
+    - **Reasoning:** Why the code is inappropriate or problematic.
+    - **Suggestions:** Examples of how the code should be corrected.
+    - Output your review results in the following JSONL (JSON Lines) format. Ensure each value is non-null and uses UTF-8 encoding:
+
     ```json
     {{“body”:“review comments”,“path”:“target filename”,“line”:“target line number (int)”,“side”:“whether comments are for deletions or additions (LEFT for comments on deleted sources, RIGHT for comments on added sources)”}}
     {{“body”:“review comments”,“path”:“target filename”,“line”:“target line number (int)”,“side”:“whether comments are for deletions or additions (LEFT for comments on deleted sources, RIGHT for comments on added sources)”}}
     ...
     ```
-    Results of git diff:
+    Code diff:
     ```
     {git_diff.stdout}
     ```
-    No additional text is required. Only output the above json format.
+    Please provide your review in the specified JSONL format. No additional text is required.
     """
     chat = model.start_chat()
     res = chat.send_message(content=content)
