@@ -8,7 +8,7 @@ def get_review(api_key, commit_branch, main_branch, logger):
     command = "git fetch origin main && git fetch origin dev"
     subprocess.run(command, shell=True, check=True)
     debug = subprocess.run("git branch", shell=True, stdout=subprocess.PIPE, check=True)
-    logger.info(debug)
+    logger.info(debug.stdout)
     command = f"git diff {main_branch}..{commit_branch}"
     git_diff = subprocess.run(
         command,
