@@ -63,7 +63,7 @@ if __name__ == "__main__":
     google_api_key = os.environ["GOOGLE_API_KEY"]
 
     raw_review = get_review(
-        google_api_key, pr_branch_name, f"origin/{base_branch_name}", logger
+        google_api_key, pr_branch_name, f"{base_branch_name}", logger
     )
     review_comments = parse_comments(raw_review)
 
